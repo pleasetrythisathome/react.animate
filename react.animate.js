@@ -8,7 +8,7 @@
   }
 }(this, function (_, React) {
 
-  React.Animation = {
+  React.Animate = {
 
     animate: function(attr, targetValue, duration, ease, callback) {
       var cmp = this;
