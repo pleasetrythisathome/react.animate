@@ -99,7 +99,7 @@ var component = React.createClass({
 });
 ```
 
-view in [jsfiddle](http://jsfiddle.net/mWAnw/)
+view in [jsfiddle](http://jsfiddle.net/mWAnw/3/)
 
 
 Installation
