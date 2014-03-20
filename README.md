@@ -19,7 +19,7 @@ If you think about animation as a transition from one state value from another, 
 At it's most simple, React.Animate allows you to transition between one state and another over a set interval.
 
 
-'
+```javascript
 animate: function(attr, targetValue, duration, ease) {
   var cmp = this;
 
@@ -39,21 +39,21 @@ animate: function(attr, targetValue, duration, ease) {
       };
     });
 }
-'
+```
 
 the included implemtation supports the same syntax as $.animate.
 
 you can pass either
 
-'
+```javascript
 this.animate(properties [, duration ] [, easing ] [, complete ] );
-'
+```
 
 or
 
-'
+```javascript
 this.animate(key, value [, duration ] [, easing ] [, complete ] );
-'
+```
 
 Dependencies
 ------------
@@ -70,7 +70,7 @@ React.Animate can be included in any React class by adding it to the mixins arra
 
 By animating state instead of the DOM directly, we can define logic that acts during certain parts of our animations.
 
-'
+```javascript
 var component = React.createClass({
   mixins: [React.Animate],
   getInitialState: function() {
@@ -97,7 +97,7 @@ var component = React.createClass({
     });
   }
 });
-'
+```
 
 Installation
 ------------
