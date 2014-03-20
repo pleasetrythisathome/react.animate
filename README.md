@@ -101,3 +101,13 @@ var component = React.createClass({
 
 Installation
 ------------
+
+React.Animate can be installed with bower using
+
+```
+bower install react.animate --save
+```
+
+which will automatically pull the required React and Underscore dependencies.
+
+to use React.Animate, include it in your page or build process after React and Underscore
