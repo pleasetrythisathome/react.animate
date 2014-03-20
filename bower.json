@@ -10,10 +10,9 @@
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+  ],
+  "dependencies": {
+    "react": ">=0.9.0",
+    "underscore": ">=1.6.0"
+  }
 }
