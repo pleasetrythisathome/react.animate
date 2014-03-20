@@ -102,7 +102,7 @@ var component = React.createClass({
 Installation
 ------------
 
-React.Animate can be installed with bower using
+React.Animate can be installed with [bower](http://bower.io/) using
 
 ```
 bower install react.animate --save
