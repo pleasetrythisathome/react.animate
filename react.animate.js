@@ -51,7 +51,7 @@
         }
       });
 
-      return d3.transition()
+      return d3.select(this.getDOMNode()).transition()
         .duration(duration)
         .ease(ease)
         .tween(attr, function() {
