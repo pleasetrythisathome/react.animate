@@ -44,7 +44,7 @@
       // until then, perform all at once
 
       var interpolators = _.map(targetState, function(target, key) {
-        if (_.isFunction(targetValue)) {
+        if (_.isFunction(target)) {
           return target;
         } else {
           return d3.interpolate(cmp.state[key], target);
