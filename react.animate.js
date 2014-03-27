@@ -1,12 +1,12 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['_', 'react'], factory);
+    define(['underscore', 'react', 'd3'], factory);
   } else {
     // Browser globals
     root.amdWeb = factory(root._, root.React);
   }
-}(this, function (_, React) {
+}(this, function (_, React, d3) {
 
   React.Animate = {
 
