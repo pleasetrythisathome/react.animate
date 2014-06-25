@@ -11,6 +11,10 @@
   React.Animate = {
 
     animate: function(attr, targetValue, duration, ease, callback) {
+      if (!this.isMounted()) {
+        return;
+      }
+      
       var cmp = this;
 
       var targetState;
