@@ -56,7 +56,9 @@
         .ease(ease)
         .tween(attr, function() {
           return function(t) {
-            cmp.setState(_.object(_.keys(targetState), _.invoke(interpolators, "call", cmp, t)));
+            if (cmp.isMounted()) {
+              cmp.setState(_.object(_.keys(targetState), _.invoke(interpolators, "call", cmp, t)));
+            }
           };
         })
         .each("end", callback);
