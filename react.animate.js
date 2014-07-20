@@ -30,7 +30,7 @@
       }
 
       duration = duration || 500;
-      ease = ease || "cubin-in-out";
+      ease = ease || "cubic-in-out";
       callback = callback || _.identity;
 
       // need to modify d3 source to support concurrent transtions
