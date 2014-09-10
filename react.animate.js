@@ -4,7 +4,7 @@
     define(['underscore', 'react', 'd3'], factory);
   } else {
     // Browser globals
-    root.amdWeb = factory(root._, root.React);
+    root.amdWeb = factory(root._, root.React, root.d3);
   }
 }(this, function (_, React, d3) {
 
