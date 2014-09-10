@@ -4,34 +4,42 @@
     define(['underscore', 'react', 'd3'], factory);
   } else {
     // Browser globals
-    root.amdWeb = factory(root._, root.React);
+    root.amdWeb = factory(root._, root.React, root.d3);
   }
 }(this, function (_, React, d3) {
 
   React.Animate = {
 
-    animate: function(attr, targetValue, duration, ease, callback) {
+    animate: function() {
       var cmp = this;
 
-      var targetState;
+      var targetState, duration, ease, callback;
+      var argIter = 0;
 
-      if (_.isObject(attr)) {
-        targetState = attr;
-
-        ease = duration;
-        duration = targetValue;
+      if (_.isObject(arguments[argIter])) {
+        targetState = arguments[argIter++];
       } else {
-        targetState = _.object([attr, targeValue]);
+        targetState = _.object([arguments[argIter], arguments[argIter + 1]]);
+        argIter += 2;
       }
 
-      if (_.isFunction(ease)) {
-        callback = ease;
-        ease = null;
+      if (_.isNumber(arguments[argIter])) {
+        duration = arguments[argIter++];
+      } else {
+        duration = 500;
       }
 
-      duration = duration || 500;
-      ease = ease || "cubic-in-out";
-      callback = callback || _.identity;
+      if (_.isString(arguments[argIter])) {
+        ease = arguments[argIter++];
+      } else {
+        ease = "cubic-in-out";
+      }
+
+      if (_.isFunction(arguments[argIter])) {
+        callback = arguments[argIter++];
+      } else {
+        callback = _.identity;
+      }
 
       // need to modify d3 source to support concurrent transtions
       // https://groups.google.com/forum/#!topic/d3-js/PwdFTn1ix2U
@@ -54,7 +62,7 @@
       return d3.select(this.getDOMNode()).transition()
         .duration(duration)
         .ease(ease)
-        .tween(attr, function() {
+        .tween(targetState, function() {
           return function(t) {
             if (cmp.isMounted()) {
               cmp.setState(_.object(_.keys(targetState), _.invoke(interpolators, "call", cmp, t)));
