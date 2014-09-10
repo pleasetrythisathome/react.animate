@@ -21,7 +21,7 @@
         ease = duration;
         duration = targetValue;
       } else {
-        targetState = _.object([attr, targeValue]);
+        targetState = _.object([attr, targetValue]);
       }
 
       if (_.isFunction(ease)) {
