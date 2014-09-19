@@ -1,75 +1,104 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['underscore', 'react', 'd3'], factory);
+    define(['underscore', 'react', 'ease'], factory);
   } else {
     // Browser globals
-    root.amdWeb = factory(root._, root.React, root.d3);
+    root.amdWeb = factory(root._, root.React, root.Ease);
   }
-}(this, function (_, React, d3) {
+}(this, function (_, React, Ease) {
+
+  var requestAnimationFrame = window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.msRequestAnimationFrame;
+
+  var animator = function() {
+    var date = (new Date).getTime();
+    var alpha = (date - this.startTime) / this.duration;
+
+    alpha = alpha > 1 ? 1 : alpha;
+
+    var newState = {};
+    var easeFunc = Ease[this.ease];
+    for (var i in this.startState) {
+      newState[i] = this.startState[i] + (this.endState[i] - this.startState[i]) * easeFunc(alpha);
+    }
+    this.component.setState(newState);
+
+    if (alpha >= 1) {
+      for (var i in this.startState) {
+        delete this.component._reactAnimations[i];
+      }
+      this.callback();
+    } else
+      this.animation = requestAnimationFrame(animator.bind(this));
+  };
+
+  var removeAnimatorProperty = function(animator, property) {
+    if (animator.startState[property] === undefined)
+      return;
+
+    delete animator.startState[property];
+    delete animator.endState[property];
+
+    if (_.keys(animator.startState).length < 1) {
+      animator.callback();
+    }
+  };
 
   React.Animate = {
 
     animate: function() {
-      var cmp = this;
+      // Default parameters
+      var anim = {
+        startTime: (new Date()).getTime(),
+        animation: null,
+        startState: {},
+        endState: {},
+        duration: 500,
+        ease: "cubic-in-out",
+        callback: _.identity,
+        component: this,
+      };
 
-      var targetState, duration, ease, callback;
+      // Parameter parsing
       var argIter = 0;
-
       if (_.isObject(arguments[argIter])) {
-        targetState = arguments[argIter++];
+        anim.endState = arguments[argIter++];
       } else {
-        targetState = _.object([arguments[argIter], arguments[argIter + 1]]);
+        anim.endState = _.object([arguments[argIter],
+                                  arguments[argIter + 1]]);
         argIter += 2;
       }
 
       if (_.isNumber(arguments[argIter])) {
-        duration = arguments[argIter++];
-      } else {
-        duration = 500;
+        anim.duration = arguments[argIter++];
       }
 
       if (_.isString(arguments[argIter])) {
-        ease = arguments[argIter++];
-      } else {
-        ease = "cubic-in-out";
+        anim.ease = arguments[argIter++];
       }
 
       if (_.isFunction(arguments[argIter])) {
-        callback = arguments[argIter++];
-      } else {
-        callback = _.identity;
+        anim.callback = arguments[argIter++];
       }
 
-      // need to modify d3 source to support concurrent transtions
-      // https://groups.google.com/forum/#!topic/d3-js/PwdFTn1ix2U
-      // (based on old code) https://github.com/lgrammel/d3/commit/1dd3e6ead6ea33ef23b22eaacc91212a70a93f19
+      // Save the animation object on the animated component
+      if (!this._reactAnimations)
+        this._reactAnimations = {};
 
-      // _.each(targetState, function(target, key) {
-      //   cmp.animate(key, target, duration, ease);
-      // });
+      for (var i in anim.endState) {
+        anim.startState[i] = (this.state[i] !== undefined ?
+                              this.state[i] : this.endState[i]);
+        // Stop currently running animation for a given property
+        if (this._reactAnimations[i] !== undefined)
+          removeAnimatorProperty(this._reactAnimations[i], i);
+        this._reactAnimations[i] = anim;
+      }
 
-      // until then, perform all at once
-
-      var interpolators = _.map(targetState, function(target, key) {
-        if (_.isFunction(target)) {
-          return target;
-        } else {
-          return d3.interpolate(cmp.state[key], target);
-        }
-      });
-
-      return d3.select(this.getDOMNode()).transition()
-        .duration(duration)
-        .ease(ease)
-        .tween(targetState, function() {
-          return function(t) {
-            if (cmp.isMounted()) {
-              cmp.setState(_.object(_.keys(targetState), _.invoke(interpolators, "call", cmp, t)));
-            }
-          };
-        })
-        .each("end", callback);
+      // Kick the animation
+      anim.animator = requestAnimationFrame(animator.bind(anim));
     }
   };
 
