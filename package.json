@@ -1,0 +1,14 @@
+{
+  "name": "react.animate",
+  "version": "1.0.0",
+  "description": "state animation plugin for react.js",
+  "main": "./react.animate.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nutelac/react.animate"
+  },
+  "keywords": [
+    "react",
+    "animations"
+  ]
+}
