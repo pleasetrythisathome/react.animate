@@ -1,12 +1,12 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['underscore', 'react', 'ease'], factory);
+    define(['react', 'ease'], factory);
   } else {
     // Browser globals
-    root.amdWeb = factory(root._, root.React, root.Ease);
+    root.amdWeb = factory(root.React, root.Ease);
   }
-}(this, function (_, React, Ease) {
+}(this, function (React, Ease) {
 
   var requestAnimationFrame = window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -42,7 +42,7 @@
     delete animator.startState[property];
     delete animator.endState[property];
 
-    if (_.keys(animator.startState).length < 1) {
+    if (Object.keys(animator.startState).length < 1) {
       animator.callback();
     }
   };
@@ -58,29 +58,30 @@
         endState: {},
         duration: 500,
         ease: "cubic-in-out",
-        callback: _.identity,
+        callback: function() {},
         component: this,
       };
 
       // Parameter parsing
       var argIter = 0;
-      if (_.isObject(arguments[argIter])) {
+      if (typeof arguments[argIter] === 'object') {
         anim.endState = arguments[argIter++];
       } else {
-        anim.endState = _.object([arguments[argIter],
-                                  arguments[argIter + 1]]);
+        anim.endState = {};
+        anim.endState[arguments[argIter]] =
+          arguments[argIter + 1];
         argIter += 2;
       }
 
-      if (_.isNumber(arguments[argIter])) {
+      if (typeof arguments[argIter] === 'number') {
         anim.duration = arguments[argIter++];
       }
 
-      if (_.isString(arguments[argIter])) {
+      if (typeof arguments[argIter] === 'string') {
         anim.ease = arguments[argIter++];
       }
 
-      if (_.isFunction(arguments[argIter])) {
+      if (typeof arguments[argIter] === 'function') {
         anim.callback = arguments[argIter++];
       }
 
