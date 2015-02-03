@@ -1,5 +1,10 @@
 (function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
+  if (typeof require === 'function' && typeof module == 'object' && module.exports) {
+    module.exports = factory(
+      require('react'),
+      require('ease-component')
+    );
+  } else if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
     define(['react', 'ease'], factory);
   } else {
