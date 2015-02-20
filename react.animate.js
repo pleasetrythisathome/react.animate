@@ -1,5 +1,10 @@
 (function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
+  if (typeof require === 'function' && typeof module == 'object' && module.exports) {
+    module.exports = factory(
+      require('react'),
+      require('ease-component')
+    );
+  } else if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
     define(['react', 'ease'], factory);
   } else {
@@ -8,10 +13,13 @@
   }
 }(this, function (React, Ease) {
 
-  var requestAnimationFrame = window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.msRequestAnimationFrame;
+  var requestAnimationFrame = null;
+
+  if(typeof window !== 'undefined')
+    requestAnimationFrame = window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.msRequestAnimationFrame;
 
   var animator = function() {
     var date = (new Date).getTime();
@@ -50,6 +58,10 @@
   React.Animate = {
 
     animate: function() {
+      // keep start state if requestAnimationFrame is unset
+      if(!requestAnimationFrame)
+        return;
+
       // Default parameters
       var anim = {
         startTime: (new Date()).getTime(),
