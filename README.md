@@ -103,7 +103,13 @@ React.Animate can be installed with [bower](http://bower.io/) using
 bower install react.animate --save
 ```
 
-which will automatically pull the required React and Underscore dependencies.
+React.Animate can be installed with [npm](https://www.npmjs.com/) using
+
+```
+npm install react.animate --save
+```
+
+Both will automatically pull the required React and Underscore dependencies.
 
 to use React.Animate, include it in your page or build process after React and Underscore
 
