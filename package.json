@@ -10,7 +10,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "react": ">=0.9.0",
     "ease-component": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=0.9.0"
   }
 }
