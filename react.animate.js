@@ -69,7 +69,7 @@
         startState: {},
         endState: {},
         duration: 500,
-        ease: "in-out-cubic",
+        ease: "in-out-cube",
         callback: function() {},
         component: this,
       };
