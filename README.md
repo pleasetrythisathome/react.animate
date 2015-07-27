@@ -41,7 +41,7 @@ animate: function(attr, targetValue, duration, ease) {
 }
 ```
 
-the included implemtation supports the same syntax as $.animate.
+the included implementation supports the same syntax as $.animate.
 
 you can pass either
 
