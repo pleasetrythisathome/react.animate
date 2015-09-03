@@ -116,9 +116,7 @@ to use React.Animate, include it in your page or build process after React and U
 Dependencies
 ------------
 
-[d3.js](http://d3js.org/) provides a variety of flexible [interpolators](https://github.com/mbostock/d3/wiki/Transitions#d3_interpolate) and [easing functions](https://github.com/mbostock/d3/wiki/Transitions#d3_ease).
-
-[underscore.js](http://underscorejs.org/) provides some functional sugar.
+[easing functions](https://github.com/component/ease).
 
 Limitations
 ------------
