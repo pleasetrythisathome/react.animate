@@ -16,32 +16,7 @@ What we really want to animate is not the DOM, it's component state.
 
 If you think about animation as a transition from one state value from another, you can just interpolate state over an interval, and your component can rerender precisely in response to the current component state at every step.
 
-At it's most simple, React.Animate allows you to transition between one state and another over a set interval.
-
-
-```javascript
-animate: function(attr, targetValue, duration, ease) {
-  var cmp = this;
-
-  var interpolator;
-  if (_.isFunction(targetValue)) {
-    interpolator = targetValue;
-  } else {
-    interpolator = d3.interpolate(this.state[attr], targetValue);
-  }
-
-  return d3.transition()
-    .duration(duration || 500)
-    .ease(ease || "cubic-in-out")
-    .tween(attr, function() {
-      return function(t) {
-        cmp.setState(_.object([attr], [interpolator(t)]));
-      };
-    });
-}
-```
-
-the included implementation supports the same syntax as $.animate.
+At it's most simple, React.Animate allows you to transition between one state and another over a set interval. The implementation supports the same syntax as $.animate.
 
 you can pass either
 
@@ -117,8 +92,3 @@ Dependencies
 ------------
 
 [easing functions](https://github.com/component/ease).
-
-Limitations
-------------
-
-Due to the nature of d3's transition system, starting a new animation on a component will cancel the current running animation. This will change in the future to allow concurrent animation of different properties at different speeds, easing, etc.
