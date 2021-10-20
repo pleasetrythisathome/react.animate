@@ -4,6 +4,10 @@
   "version": "0.0.4",
   "homepage": "https://github.com/pleasetrythisathome/react.animate",
   "description": "A small mixin that adds state animation to React components.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pleasetrythisathome/react.animate.git"
+  },
   "keywords": [
     "ease",
     "react"
